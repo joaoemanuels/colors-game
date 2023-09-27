@@ -2,24 +2,63 @@ var buttonColors = ["red", "blue", "green", "yellow"];
 var gamePattern = [];
 var userClickedPattern = [];
 
-$(".block").click(function () {
+var started = false
+var level = 0
+var userTurn = false;
 
-  var userChosenColour = $(this).attr("id");
-  userClickedPattern.push(userChosenColour);
-  playSound(userChosenColour);
-  animatePress(userChosenColour);
-  $(document).on('keydown', function (e) {
-    alert('Uma tecla foi pressionada. Código da tecla: ' + (e.which || e.keyCode));
-  });
+$(document).on('keydown', function () {
+  if (!started) {
+
+    // Iniciar o jogo quando uma tecla for pressionada pela primeira vez
+    $("#level-title").text("Level " + level);
+    nextSequence();
+    started = true;
+  }
+});
+
+$(".block").click(function () {
+  if (userTurn) {
+    var userChosenColour = $(this).attr("id");
+    userClickedPattern.push(userChosenColour);
+
+    //Reproduzir som ao clicar com mouse
+    playSound(userChosenColour);
+    animatePress(userChosenColour);
+
+    //var lastIndex = userClickedPattern.length - 1;
+    checkAnswer(userClickedPattern.length - 1);
+  }
 });
 
 function nextSequence() {
+  userClickedPattern = [];
+  level++
+  $("#level-title").text("Level " + level);
   var randomNumber = Math.floor(Math.random() * 4);
   var randomChosenColour = buttonColors[randomNumber];
   gamePattern.push(randomChosenColour);
 
+  // Mostrar a sequência de cores
   $("#" + randomChosenColour).fadeIn(100).fadeOut(100).fadeIn(100);
   playSound(randomChosenColour);
+
+  userTurn = true;
+}
+
+function checkAnswer(currentLevel) {
+
+  if (userClickedPattern[currentLevel] === gamePattern[[currentLevel]]) {
+    if (userClickedPattern.length === gamePattern.length) {
+      console.log("Usuário concluiu a sequência!");
+
+      setTimeout(function () {
+        nextSequence();
+      }, 1000);
+    }
+  } else {
+    console.log("Wrong");
+    startOver();
+  }
 }
 
 function playSound(name) {
@@ -27,12 +66,18 @@ function playSound(name) {
   audio.play();
 }
 
-
 function animatePress(currentColor) {
-
+  // Adicionar e remover classe para efeito visual
   $("#" + currentColor).addClass("pressed");
-
   setTimeout(function () {
     $("#" + currentColor).removeClass("pressed");
   }, 100);
+}
+
+function startOver() {
+  level = 0;
+  gamePattern = [];
+  started = false;
+  userTurn = false;
+  $("#level-title").text("Pressione qualquer tecla para iniciar");
 }
