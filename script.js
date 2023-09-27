@@ -46,18 +46,20 @@ function nextSequence() {
 }
 
 function checkAnswer(currentLevel) {
-
   if (userClickedPattern[currentLevel] === gamePattern[[currentLevel]]) {
     if (userClickedPattern.length === gamePattern.length) {
-      console.log("Usuário concluiu a sequência!");
-
       setTimeout(function () {
         nextSequence();
       }, 1000);
     }
   } else {
-    console.log("Wrong");
-    startOver();
+    $("body").addClass("game-over");
+
+    setTimeout(function () {
+      $("body").removeClass("game-over");
+      $("h1").text("Game Over, clique qualquer tecla para retornar");
+    }, 1000);
+      startOver();
   }
 }
 
