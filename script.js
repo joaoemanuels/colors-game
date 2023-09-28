@@ -54,9 +54,10 @@ function checkAnswer(currentLevel) {
     }
   } else {
     $("body").addClass("game-over");
+    var audioError = new Audio("sounds/wrong.mp3");
+    audioError.play()
     setTimeout(function () {
       $("body").removeClass("game-over");
-
     }, 1000);
     startOver();
   }
