@@ -56,9 +56,9 @@ function checkAnswer(currentLevel) {
     $("body").addClass("game-over");
     setTimeout(function () {
       $("body").removeClass("game-over");
-      
+
     }, 1000);
-      startOver();
+    startOver();
   }
 }
 
@@ -80,6 +80,7 @@ function startOver() {
   gamePattern = [];
   started = false;
   userTurn = false;
+  
   $("#level-title").text("Game Over!");
   setTimeout(function () {
     $("#level-title").text("Pressione qualquer tecla para iniciar");
