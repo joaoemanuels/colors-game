@@ -54,10 +54,9 @@ function checkAnswer(currentLevel) {
     }
   } else {
     $("body").addClass("game-over");
-
     setTimeout(function () {
       $("body").removeClass("game-over");
-      $("h1").text("Game Over, clique qualquer tecla para retornar");
+      
     }, 1000);
       startOver();
   }
@@ -81,5 +80,8 @@ function startOver() {
   gamePattern = [];
   started = false;
   userTurn = false;
-  $("#level-title").text("Pressione qualquer tecla para iniciar");
+  $("#level-title").text("Game Over!");
+  setTimeout(function () {
+    $("#level-title").text("Pressione qualquer tecla para iniciar");
+  }, 1000);
 }
